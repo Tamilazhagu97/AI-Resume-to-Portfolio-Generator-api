@@ -488,8 +488,8 @@ Each TypeScript file includes detailed comments:
 ## Quick Links
 
 - 📖 [Full Documentation](./docs/)
-- 🐛 [Report Bug](https://github.com/yourusername/resume-portfolio-generator/issues)
-- 💬 [Discussions](https://github.com/yourusername/resume-portfolio-generator/discussions)
+- 🐛 [Report Bug](https://github.com/Tamilazhagu97/resume-portfolio-generator/issues)
+- 💬 [Discussions](https://github.com/Tamilazhagu97/resume-portfolio-generator/discussions)
 - 🌐 [Google Gemini API](https://ai.google.dev/)
 
 Enjoy creating beautiful portfolios! 🚀✨
