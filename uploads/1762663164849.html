@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tamilazhagu Anandhan - Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    header .subtitle {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      font-size: 0.95em;
+    }
+
+    .contact-info a {
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .contact-info a:hover {
+      opacity: 0.7;
+    }
+
+    .social-links {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .social-links a {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 40px;
+      transition: background 0.3s;
+      text-decoration: none;
+      font-size: 1.2em;
+    }
+
+    .social-links a:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    main {
+      padding: 40px;
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    section h2 {
+      font-size: 1.8em;
+      color: #667eea;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    .summary {
+      background: #f8f9fa;
+      padding: 20px;
+      border-left: 4px solid #667eea;
+      border-radius: 4px;
+      line-height: 1.8;
+    }
+
+    .experience-item,
+    .education-item,
+    .project-item {
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .experience-item:last-child,
+    .education-item:last-child,
+    .project-item:last-child {
+      border-bottom: none;
+    }
+
+    .job-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .company-info {
+      color: #667eea;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .duration {
+      color: #777;
+      font-size: 0.95em;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .highlights {
+      list-style: none;
+      padding-left: 20px;
+    }
+
+    .highlights li {
+      color: #666;
+      margin-bottom: 8px;
+      position: relative;
+      padding-left: 15px;
+    }
+
+    .highlights li:before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #667eea;
+      font-weight: bold;
+    }
+
+    .degree {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .institution {
+      color: #667eea;
+      font-weight: 500;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .skill-category {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+
+    .skill-category h3 {
+      color: #667eea;
+      margin-bottom: 12px;
+      font-size: 1.1em;
+    }
+
+    .skill-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tag {
+      background: #667eea;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.9em;
+    }
+
+    .project-item h3 {
+      color: #333;
+      margin-bottom: 8px;
+      font-size: 1.1em;
+    }
+
+    .technologies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .tech-badge {
+      background: #e9ecef;
+      color: #667eea;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+
+    .project-link {
+      color: #667eea;
+      text-decoration: none;
+      margin-top: 10px;
+      display: inline-block;
+    }
+
+    .project-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background: #f8f9fa;
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      border-top: 1px solid #eee;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 40px 20px;
+      }
+
+      header h1 {
+        font-size: 1.8em;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      .contact-info {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+      .container {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Tamilazhagu Anandhan</h1>
+      <p class="subtitle">Full Stack Developer</p>
+      <div class="contact-info">
+        <a href="mailto:tamilazhagu1997@gmail.com">📧 tamilazhagu1997@gmail.com</a>
+        <a href="tel:+91-9944304589">📱 +91-9944304589</a>
+        <span>📍 background jobs for holiday scheduling</span>
+      </div>
+      
+      <div class="social-links">
+        
+          <a href="https://linkedin.com/in/tamilazhagu-anandhan-1b70a5237" target="_blank" title="linkedin" rel="noopener noreferrer">
+            💼
+          </a>
+        
+      </div>
+    
+    </header>
+
+    <main>
+      
+      <section>
+        <h2>About</h2>
+        <div class="summary">Backend Developer with 2+ years of experience in building scalable fintech and edtech solutions. Skilled in</div>
+      </section>
+      
+
+      
+      <section>
+        <h2>Experience</h2>
+        
+          <div class="experience-item">
+            <div class="job-title">Backend Developer</div>
+            <div class="company-info">Piccosoft Software Labs Pvt Ltd.</div>
+            <div class="duration"></div>
+            <div class="description"></div>
+            
+          </div>
+        
+          <div class="experience-item">
+            <div class="job-title">April 2023</div>
+            <div class="company-info">Dec 2024</div>
+            <div class="duration"></div>
+            <div class="description">- Built scalable backend systems using Node.js, NestJS, PostgreSQL, MongoDB. - Developed AI-powered School Management System with automated lesson planning, assessment generation, and reporting (reduc</div>
+            
+              <ul class="highlights">
+                <li>Built scalable backend systems using Node.js, NestJS, PostgreSQL, MongoDB.</li><li>Developed AI-powered School Management System with automated lesson planning, assessment generation,</li><li>Designed fintech settlement modules (MDR, commission distribution, NEFT payouts, multi-channel payments).</li><li>Implemented Redis-based background jobs for holiday scheduling, settlement cycles, and hold/release logic.</li><li>Collaborated with Angular frontend team to deliver CPID-based admin dashboards with validation.</li>
+              </ul>
+            
+          </div>
+        
+          <div class="experience-item">
+            <div class="job-title">Client Project</div>
+            <div class="company-info">CredoPay (via GK Technologies & Russell Tobin)</div>
+            <div class="duration"></div>
+            <div class="description"></div>
+            
+          </div>
+        
+          <div class="experience-item">
+            <div class="job-title">April 2025</div>
+            <div class="company-info">Present</div>
+            <div class="duration"></div>
+            <div class="description">- Developed fintech backend handling POS, AEPS, UPI, PG, and mATM transactions. - Implemented CPBS settlement engine, MDR rules, GST/TDS adjustments, and GMV range management. - Built cron job monitor</div>
+            
+              <ul class="highlights">
+                <li>Developed fintech backend handling POS, AEPS, UPI, PG, and mATM transactions.</li><li>Implemented CPBS settlement engine, MDR rules, GST/TDS adjustments, and GMV range management.</li><li>Built cron job monitoring dashboards and optimized Redis workflows.</li><li>Enhanced system accuracy through CPID hierarchical mapping.</li>
+              </ul>
+            
+          </div>
+        
+      </section>
+      
+
+      
+
+      
+      <section>
+        <h2>Skills</h2>
+        <div class="skills-grid">
+          
+            <div class="skill-category">
+              <h3>Languages & Frameworks</h3>
+              <div class="skill-items">
+                <span class="skill-tag">Languages/Frameworks: JavaScript</span><span class="skill-tag">TypeScript</span><span class="skill-tag">Node.js</span><span class="skill-tag">Built scalable backend systems using Node.js</span><span class="skill-tag">TypeScript</span><span class="skill-tag">Tech: Node.js</span><span class="skill-tag">TypeScript</span>
+              </div>
+            </div>
+          
+            <div class="skill-category">
+              <h3>Other Skills</h3>
+              <div class="skill-items">
+                <span class="skill-tag">Express.js</span><span class="skill-tag">NestJS</span><span class="skill-tag">TypeORM</span><span class="skill-tag">EJS</span><span class="skill-tag">Frontend/UI: Angular 16</span><span class="skill-tag">HTML</span><span class="skill-tag">CSS</span><span class="skill-tag">SCSS</span><span class="skill-tag">APIs: RESTful APIs</span><span class="skill-tag">ML basics</span>
+              </div>
+            </div>
+          
+            <div class="skill-category">
+              <h3>Databases</h3>
+              <div class="skill-items">
+                <span class="skill-tag">Databases: MongoDB</span><span class="skill-tag">PostgreSQL</span><span class="skill-tag">MySQL</span><span class="skill-tag">PostgreSQL</span><span class="skill-tag">MongoDB.</span><span class="skill-tag">MongoDB</span><span class="skill-tag">PostgreSQL</span><span class="skill-tag">Optimized database queries and deployed on AWS.</span>
+              </div>
+            </div>
+          
+            <div class="skill-category">
+              <h3>Tools & Cloud</h3>
+              <div class="skill-items">
+                <span class="skill-tag">AI Tools: OpenAI API</span><span class="skill-tag">Tools: Git</span><span class="skill-tag">GitHub</span><span class="skill-tag">Cloud & Others: AWS (S3)</span>
+              </div>
+            </div>
+          
+        </div>
+      </section>
+      
+
+      
+      <section>
+        <h2>Projects</h2>
+        
+          <div class="project-item">
+            <h3>– CredoPay (via GK Technologies & Russell Tobin)</h3>
+            <p></p>
+            
+            
+          </div>
+        
+          <div class="project-item">
+            <h3>April 2025 – Present</h3>
+            <p>- Developed fintech backend handling POS, AEPS, UPI, PG, and mATM transactions. - Implemented CPBS settlement engine, MDR rules, GST/TDS adjustments, </p>
+            
+              <div class="technologies">
+                <span class="tech-badge">backend handling POS</span><span class="tech-badge">AEPS</span><span class="tech-badge">UPI</span><span class="tech-badge">PG</span><span class="tech-badge">and mATM transactions.</span>
+              </div>
+            
+            
+          </div>
+        
+          <div class="project-item">
+            <h3>Key Projects</h3>
+            <p></p>
+            
+            
+          </div>
+        
+      </section>
+      
+
+      
+    </main>
+
+    <footer>
+      <p>Generated with AI Portfolio Generator • 2025</p>
+    </footer>
+  </div>
+</body>
+</html>
