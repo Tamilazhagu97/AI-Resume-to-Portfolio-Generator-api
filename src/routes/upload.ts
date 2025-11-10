@@ -41,6 +41,9 @@ import * as fs from 'fs';
 // POST /api/upload - Generate portfolio from resume
 router.post('/upload', upload.single('resume'), UploadController.generatePortfolio);
 
+// ✅ GET /api/preview/:fileName - Preview portfolio in browser
+router.get('/preview/:fileName', UploadController.previewPortfolio);
+
 // GET /api/download/:fileName - Download generated portfolio
 router.get('/download/:fileName', UploadController.downloadPortfolio);
 
