@@ -30,6 +30,58 @@ export class PortfolioGenerator {
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     }
 
+    nav {
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 15px 20px;
+      gap: 25px;
+    }
+
+    nav a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    nav a:hover {
+      color: #764ba2;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #667eea;
+      transition: width 0.3s;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    nav a.active {
+      color: #764ba2;
+    }
+
+    nav a.active::after {
+      width: 100%;
+    }
+
     header {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
@@ -96,6 +148,7 @@ export class PortfolioGenerator {
 
     section {
       margin-bottom: 40px;
+      scroll-margin-top: 80px;
     }
 
     section h2 {
@@ -277,6 +330,12 @@ export class PortfolioGenerator {
       .skills-grid {
         grid-template-columns: 1fr;
       }
+
+      nav ul {
+        gap: 12px;
+        padding: 10px 15px;
+        font-size: 0.9em;
+      }
     }
 
     @media print {
@@ -285,6 +344,9 @@ export class PortfolioGenerator {
       }
       .container {
         box-shadow: none;
+      }
+      nav {
+        display: none;
       }
     }
   </style>
@@ -302,10 +364,21 @@ export class PortfolioGenerator {
       ${this.generateSocialLinks(data.social)}
     </header>
 
+    <nav>
+      <ul>
+        ${data.summary ? '<li><a href="#about">About</a></li>' : ''}
+        ${data.experience.length > 0 ? '<li><a href="#experience">Experience</a></li>' : ''}
+        ${data.education.length > 0 ? '<li><a href="#education">Education</a></li>' : ''}
+        ${data.skills.length > 0 ? '<li><a href="#skills">Skills</a></li>' : ''}
+        ${data.projects.length > 0 ? '<li><a href="#projects">Projects</a></li>' : ''}
+        ${data.certifications.length > 0 ? '<li><a href="#certifications">Certifications</a></li>' : ''}
+      </ul>
+    </nav>
+
     <main>
       ${data.summary
         ? `
-      <section>
+      <section id="about">
         <h2>About</h2>
         <div class="summary">${data.summary}</div>
       </section>
@@ -315,7 +388,7 @@ export class PortfolioGenerator {
 
       ${data.experience.length > 0
         ? `
-      <section>
+      <section id="experience">
         <h2>Experience</h2>
         ${data.experience
           .map(
@@ -344,7 +417,7 @@ export class PortfolioGenerator {
 
       ${data.education.length > 0
         ? `
-      <section>
+      <section id="education">
         <h2>Education</h2>
         ${data.education
           .map(
@@ -364,7 +437,7 @@ export class PortfolioGenerator {
 
       ${data.skills.length > 0
         ? `
-      <section>
+      <section id="skills">
         <h2>Skills</h2>
         <div class="skills-grid">
           ${data.skills
@@ -387,7 +460,7 @@ export class PortfolioGenerator {
 
       ${data.projects.length > 0
         ? `
-      <section>
+      <section id="projects">
         <h2>Projects</h2>
         ${data.projects
           .map(
@@ -415,7 +488,7 @@ export class PortfolioGenerator {
 
       ${data.certifications.length > 0
         ? `
-      <section>
+      <section id="certifications">
         <h2>Certifications</h2>
         <ul class="highlights">
           ${data.certifications.map((cert) => `<li>${cert}</li>`).join('')}
@@ -430,6 +503,43 @@ export class PortfolioGenerator {
       <p>Generated with AI Portfolio Generator • ${new Date().getFullYear()}</p>
     </footer>
   </div>
+
+  <script>
+    // Smooth scroll and active link highlighting
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          updateActiveLink();
+        }
+      });
+    });
+
+    window.addEventListener('scroll', updateActiveLink);
+
+    function updateActiveLink() {
+      const sections = document.querySelectorAll('section');
+      let current = '';
+
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (scrollY >= sectionTop - 100) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      document.querySelectorAll('nav a').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    }
+  </script>
 </body>
 </html>`;
   }
@@ -460,4 +570,3 @@ export class PortfolioGenerator {
     `;
   }
 }
-

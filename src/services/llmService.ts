@@ -45,73 +45,161 @@ export class LLMService {
         }
     }
 
-    // ✅ NEW: Google Gemini API Parser (FREE) - Tries multiple models
-    private static async parseWithGoogleAPI(resumeText: string): Promise<ResumeData> {
-        try {
-            const truncatedText = resumeText.substring(0, 8000);
+    static createResumeParserPrompt = (resumeText: string): string => {
+        return `You are an expert resume parser and data extraction specialist. Your task is to analyze the provided resume and extract all relevant information into a perfectly structured JSON format.
 
-            const prompt = `
-You are a highly accurate and detail-oriented professional resume parser and data extractor. 
-Your task is to analyze the following resume text and extract all relevant information into a well-structured JSON object.
+CRITICAL REQUIREMENTS:
+1. Return ONLY valid, minified JSON - no markdown, no code blocks, no explanations, no extra text
+2. Parse data accurately and completely
+3. Omit keys entirely if no data exists (never use null or empty values)
+4. All array fields must exist even if empty: experience[], education[], skills[], projects[], certifications[], social[]
+5. Normalize and standardize all extracted data
 
-Guidelines:
-- Return ONLY valid JSON (no markdown, no explanations, no extra text).
-- Do NOT include keys with null values — omit them entirely if data is missing.
-- Ensure all arrays exist, even if empty.
-- Standardize formatting (proper capitalization for names, consistent date formats like "Jan 2020 - Dec 2022").
-- Provide a concise but comprehensive 5-line professional summary based on the candidate’s experience, education, and skills.
-- Extract as much structured information as possible while maintaining clean and accurate JSON formatting.
+DATA EXTRACTION GUIDELINES:
 
-Resume Text:
-${truncatedText}
+PERSONAL INFORMATION:
+- fullName: Extract complete name as written (proper capitalization)
+- email: Valid email format only
+- phone: Clean format (remove special chars, standardize to: +1 (123) 456-7890 or +1-123-456-7890)
+- location: City, State/Country format
+- summary: Write a compelling 4-5 sentence professional summary synthesizing:
+  * Core expertise and years of experience
+  * Key achievements and impact
+  * Technical or domain strengths
+  * Career progression and specializations
+  * Unique value proposition
 
-Return the extracted data in this exact structure:
+EXPERIENCE SECTION:
+- company: Official company name
+- position: Job title (normalize: "Software Engineer" not "Soft Eng")
+- duration: Format as "Mon Year - Mon Year" (e.g., "Jan 2020 - Dec 2022") or "Present" if current
+- description: 1-2 sentence overview of role responsibilities
+- highlights: Array of 3-5 quantifiable achievements using action verbs:
+  * Include metrics: "Improved X by Y%", "Reduced Z from A to B"
+  * Focus on impact: business value, efficiency, scale
+  * Format: "Verb + Action + Result (metric if available)"
+
+EDUCATION SECTION:
+- institution: University/School name
+- degree: Full degree type (Bachelor of Science, Master of Arts, etc.)
+- field: Major/Specialization field
+- year: Graduation year (format: "2020" or "May 2020")
+- gpa: GPA if mentioned (format: "3.8/4.0")
+
+SKILLS SECTION:
+- Organize into logical categories (Programming Languages, Frontend, Backend, DevOps, Tools, etc.)
+- For each category:
+  * category: Meaningful grouping name
+  * items: Array of 5-10 specific skills (sorted by proficiency if identifiable)
+  * Format: "Skill Name" not "Skills: X, Y, Z"
+
+PROJECTS SECTION:
+- title: Project name
+- description: 3-5 sentence description of project purpose and scope
+- technologies: Array of 3-8 core technologies used (sorted by importance)
+- link: URL if provided (GitHub, demo, portfolio link)
+- Include personal, academic, or professional projects with notable impact
+
+CERTIFICATIONS SECTION:
+- Format: "Certification Name - Issuer (Year)" or "Certification Name (Year)"
+- Include only recognized, credible certifications
+- Array of strings, sorted by recency or relevance
+
+SOCIAL SECTION:
+- Extract social/professional profiles: GitHub, LinkedIn, Twitter, Portfolio, Personal Website
+- platform: Standardized name (lowercase)
+- url: Complete valid URL (with https://)
+- Only include if URL is provided
+
+DATA QUALITY STANDARDS:
+✓ Remove duplicates across sections
+✓ Standardize date formats consistently
+✓ Normalize company names and titles
+✓ Fix common typos in technical terms
+✓ Sort experiences by date (most recent first)
+✓ Sort education by date (most recent first)
+✓ Sort certifications by date (most recent first)
+✓ Capitalize properly: job titles, company names, technologies
+✓ Use professional language throughout
+✓ Include only verified/mentioned information
+
+EXAMPLE OUTPUT STRUCTURE:
 {
-  "fullName": "string",
-  "email": "string",
-  "phone": "string",
-  "location": "string",
-  "summary": "5-line professional summary",
+  "fullName": "John David Smith",
+  "email": "john.smith@example.com",
+  "phone": "+1 (555) 123-4567",
+  "location": "San Francisco, CA",
+  "summary": "Full-stack developer with 5+ years of experience building scalable web applications using React and Node.js. Proven track record of delivering high-performance systems that improve user engagement by up to 40%. Skilled in cloud infrastructure, database optimization, and leading cross-functional teams. Passionate about clean code architecture and mentoring junior developers.",
   "experience": [
     {
-      "company": "string",
-      "position": "string",
-      "duration": "string",
-      "description": "string",
-      "highlights": ["string"]
+      "company": "TechCorp Inc.",
+      "position": "Senior Software Engineer",
+      "duration": "Jan 2022 - Present",
+      "description": "Lead full-stack development of customer-facing web applications serving 100K+ daily active users.",
+      "highlights": [
+        "Architected microservices migration reducing API response time by 65%",
+        "Implemented automated testing pipeline reducing production bugs by 80%",
+        "Mentored team of 4 junior engineers, 3 promoted within 18 months",
+        "Optimized database queries improving dashboard load time from 8s to 1.2s"
+      ]
     }
   ],
   "education": [
     {
-      "institution": "string",
-      "degree": "string",
-      "field": "string",
-      "year": "string"
+      "institution": "University of California, Berkeley",
+      "degree": "Bachelor of Science",
+      "field": "Computer Science",
+      "year": "2018",
+      "gpa": "3.8/4.0"
     }
   ],
   "skills": [
     {
-      "category": "string",
-      "items": ["string"]
+      "category": "Frontend",
+      "items": ["React", "TypeScript", "Next.js", "Tailwind CSS", "Redux", "Jest"]
+    },
+    {
+      "category": "Backend",
+      "items": ["Node.js", "Express.js", "PostgreSQL", "MongoDB", "GraphQL", "REST APIs"]
     }
   ],
   "projects": [
     {
-      "title": "string",
-      "description": "string",
-      "technologies": ["string"],
-      "link": "string"
+      "title": "AI Portfolio Generator",
+      "description": "Full-stack SaaS application that converts resumes into beautiful interactive portfolios using AI. Built with React, Node.js, and Claude API.",
+      "technologies": ["React", "Node.js", "Claude API", "PostgreSQL", "Stripe"],
+      "link": "https://github.com/user/portfolio-generator"
     }
   ],
-  "certifications": ["string"],
+  "certifications": [
+    "AWS Certified Solutions Architect - Professional (2023)",
+    "Kubernetes Application Developer (CKAD) (2022)"
+  ],
   "social": [
     {
-      "platform": "string",
-      "url": "string"
+      "platform": "github",
+      "url": "https://github.com/johnsmith"
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://linkedin.com/in/johnsmith"
     }
   ]
 }
-`;
+
+RESUME TO PARSE:
+${resumeText}
+
+Extract and return ONLY the JSON object, no additional text.`;
+    };
+
+    // ✅ NEW: Google Gemini API Parser (FREE) - Tries multiple models
+    private static async parseWithGoogleAPI(resumeText: string): Promise<ResumeData> {
+        try {
+            // const truncatedText = resumeText.substring(0, 8000);
+
+            const truncatedText = resumeText.substring(0, 8000);
+            const prompt = this.createResumeParserPrompt(truncatedText);
 
             const apiKey = this.getApiKey();
 
@@ -171,7 +259,7 @@ Return the extracted data in this exact structure:
 
                     try {
                         const parsedData = JSON.parse(jsonMatch[0]);
-                        console.log('✅ JSON parsed successfully');
+                        // console.log('✅ JSON parsed successfully', parsedData);
                         return this.validateAndNormalizeData(parsedData);
                     } catch (parseError) {
                         console.warn('⚠️ Failed to parse JSON, trying next model...');
