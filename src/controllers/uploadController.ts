@@ -1,5 +1,3 @@
-// src/controllers/uploadController.ts
-
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -20,7 +18,6 @@ export class UploadController {
             }
 
             const filePath = req.file.path;
-            const fileName = `${Date.now()}.html`;
 
             try {
                 // Step 1: Extract text from resume
@@ -44,6 +41,7 @@ export class UploadController {
                 const portfolioHtml = PortfolioGenerator.generate(resumeData);
 
                 // Step 4: Save HTML file
+                const fileName = `${resumeData.fullName}_${Date.now()}.html`;
                 const outputPath = path.join('uploads', fileName);
                 fs.writeFileSync(outputPath, portfolioHtml);
 

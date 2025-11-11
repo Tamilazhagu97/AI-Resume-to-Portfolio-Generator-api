@@ -5,13 +5,14 @@ Transform your resume into a stunning, professional portfolio website with AI-po
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-4.18-yellow)](https://expressjs.com/)
-[![Google Gemini](https://img.shields.io/badge/Google%20Gemini-AI-orange)](https://ai.google.dev/)
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-AI-orange)](https://huggingface.co/)
+[![Gemini](https://img.shields.io/badge/Gemini-AI-orange)](https://gemini.ai/)
 [![License](https://img.shields.io/badge/License-MIT-red)](LICENSE)
 
 ## ✨ Features
 
 - 📄 **Multi-Format Support** - Upload PDF, DOCX, DOC, or TXT resumes
-- 🤖 **AI-Powered Parsing** - Google Gemini AI extracts and structures resume data
+- 🤖 **AI-Powered Parsing** - Gemini Ai or Hugging Face AI extracts and structures resume data
 - 🎨 **Beautiful Design** - Modern, responsive portfolio with gradient backgrounds
 - 📱 **Mobile Optimized** - Perfect viewing on all devices
 - ⚡ **Fast & Reliable** - 4-model fallback system ensures success
@@ -41,7 +42,8 @@ Transform your resume into a stunning, professional portfolio website with AI-po
 ### Prerequisites
 - Node.js 16+
 - npm or yarn
-- Google API Key (free from https://ai.google.dev/)
+- Hugging Face API Key (free from https://huggingface.co/settings/tokens)
+- Gemini API Key (free from https://aistudio.google.com/api-keys)
 
 ### Installation
 
@@ -55,8 +57,9 @@ npm install
 
 # Create .env file
 cat > .env << 'EOF'
-PORT=3300
-HUGGINGFACE_API_KEY=AIzaSyD_YOUR_GOOGLE_API_KEY
+PORT=3000
+HUGGINGFACE_API_KEY=hf_YOUR_TOKEN
+GEMINI_API_KEY=hf_YOUR_TOKEN
 NODE_ENV=development
 MAX_FILE_SIZE=10485760
 EOF
@@ -69,20 +72,26 @@ Visit: **http://localhost:3300**
 
 ## 📋 Setup Guide
 
-### Step 1: Get Google API Key
+### Step 1: Get Hugging Face API Key
 
-1. Visit https://ai.google.dev/
-2. Click "Get API Key"
-3. Select "Create API Key in new project"
+1. Visit https://huggingface.co/settings/tokens
+2. Click "New token"
+3. Select "Read" permissions
 4. Copy the generated API key
+
+### Step 1: Get Gemini API Key
+1. Visit https://aistudio.google.com/api-keys
+2. Click "New token"
+3. Copy the generated API key
 
 ### Step 2: Configure Environment
 
 Create `.env` file in project root:
 
 ```properties
-PORT=3300
-HUGGINGFACE_API_KEY=AIzaSyD_YOUR_API_KEY_HERE
+PORT=3000
+HUGGINGFACE_API_KEY=hf_YOUR_TOKEN
+GEMINI_API_KEY=hf_YOUR_TOKEN
 NODE_ENV=development
 MAX_FILE_SIZE=10485760
 ```
@@ -172,7 +181,9 @@ User Upload
     ↓
 Resume Extraction (PDF/DOCX/TXT → Text)
     ↓
-Google Gemini AI Parsing (Text → JSON)
+Hugging Face AI Parsing (Text → JSON)
+    (or)
+Gemini AI Parsing (Text → JSON)
     ↓
 Portfolio HTML Generation
     ↓
@@ -183,13 +194,10 @@ Download or Preview
 
 ### Supported Models (Auto-Fallback)
 
-1. **Google Gemini 1.5 Flash** - Fastest
-2. **Google Gemini 2.0 Flash** - Latest
-3. **Google Gemini Pro** - Stable
-4. **Google Gemini 1.5 Pro** - Most Powerful
-5. **Regex Parser** - Local fallback (no API)
+1. **Hugging Face GPT-2** - AI-powered parsing (or) **Gemini AI** - AI-powered parsing
+2. **Regex Parser** - Local fallback (no API)
 
-The system automatically tries each model until one succeeds!
+The system uses GPT-2 for AI parsing, with regex as a reliable fallback!
 
 ## 🎨 Portfolio Features
 
@@ -292,7 +300,7 @@ print(result)
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `PORT` | 3300 | Server port |
-| `HUGGINGFACE_API_KEY` | - | Google API Key (required) |
+| `GEMINI_API_KEY` | - | Google API Key (required) |
 | `NODE_ENV` | development | Environment mode |
 | `MAX_FILE_SIZE` | 10485760 | Max upload size (10MB) |
 
@@ -332,7 +340,7 @@ MAX_FILE_SIZE=52428800  # 50MB
 | **Empty portfolio data** | Try different resume format |
 | **Module not found** | Run `npm install` |
 | **TypeScript errors** | Run `npm run build` to check |
-| **HUGGINGFACE_API_KEY not set** | Check `.env` file in project root |
+| **HUGGINGFACE_API_KEY not set** | Check `.env` file in project root | (or) **Gemini API key not set** | Check `.env` file in project root | (or) **Gemini API key not set** | Check `.env` file in project root | (or) **Gemini API key not set** | Check `.env` file in project root | (or) **Gemini API key not set** | Check `.env`
 | **"n" character issue in resume** | This is normal - system strips formatting characters |
 
 ## 📝 Script Commands
@@ -386,7 +394,7 @@ This project is licensed under the MIT License - see LICENSE file for details.
 
 ## 🙏 Acknowledgments
 
-- Google Generative AI for Gemini API
+- Hugging Face for GPT-2 API (or) Gemini AI for AI parsing
 - Express.js community
 - TypeScript team
 - All contributors
@@ -410,7 +418,7 @@ For issues and questions:
 ## 💡 Tips
 
 1. **Best Results** - Use well-formatted resumes
-2. **API Limits** - Google free tier: 15 requests/minute
+2. **API Limits** - Hugging Face free tier limits apply or Gemini AI free tier limits apply. Consider upgrading if needed.
 3. **Fallback** - System automatically uses regex if API fails
 4. **Customization** - Edit HTML in `portfolioGenerator.ts`
 5. **Multiple Uploads** - Each generates unique file
@@ -444,7 +452,9 @@ For issues and questions:
 
 - **TypeScript** - Type-safe code
 - **Express.js** - Backend framework
-- **Google Gemini AI** - Resume parsing
+- **Hugging Face GPT-2** - Resume parsing 
+- **Gemini AI** - Resume parsing 
+- **PDF Parse** - PDF extraction
 - **Responsive CSS** - Beautiful UI
 - **Multer** - File upload handling
 - **Axios** - HTTP requests

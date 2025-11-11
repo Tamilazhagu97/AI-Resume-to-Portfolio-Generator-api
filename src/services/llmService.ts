@@ -18,10 +18,10 @@ export class LLMService {
     private static readonly USE_LOCAL_PARSER = false; // ← SET TO FALSE FOR AI
 
     private static getApiKey(): string {
-        const key = process.env.HUGGINGFACE_API_KEY; // Reusing this env var
+        const key = process.env.GEMINI_API_KEY; // Reusing this env var
         if (!key) {
             throw new Error(
-                'GOOGLE_API_KEY not set! Add to .env: HUGGINGFACE_API_KEY=your_google_api_key'
+                'GOOGLE_API_KEY not set! Add to .env: GEMINI_API_KEY=your_google_api_key'
             );
         }
         return key;

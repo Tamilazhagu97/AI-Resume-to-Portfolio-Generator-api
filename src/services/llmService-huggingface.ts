@@ -1,5 +1,3 @@
-// src/services/llmService.ts
-
 import axios from 'axios';
 import { ResumeData } from '../types';
 

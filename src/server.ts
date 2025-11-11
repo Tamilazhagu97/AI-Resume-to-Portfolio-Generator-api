@@ -9,33 +9,33 @@ import uploadRoutes from './routes/upload';
 
 // ✅ LOAD .env FIRST - BEFORE ANYTHING ELSE
 const envPath = path.resolve(process.cwd(), '.env');
-console.log('\n📁 Looking for .env file at:', envPath);
+// console.log('\n📁 Looking for .env file at:', envPath);
 
 if (fs.existsSync(envPath)) {
-    console.log('✅ .env file found - loading...');
-    dotenv.config({ path: envPath, override: true });
+  // console.log('✅ .env file found - loading...');
+  dotenv.config({ path: envPath, override: true });
 } else {
-    console.warn('⚠️ .env file NOT found at:', envPath);
-    console.warn('📝 Please create .env file with:');
-    console.warn('   HUGGINGFACE_API_KEY=hf_YOUR_TOKEN');
-    console.warn('   PORT=3000');
+  console.warn('⚠️ .env file NOT found at:', envPath);
+  console.warn('📝 Please create .env file with:');
+  console.warn('   GEMINI_API_KEY=hf_YOUR_TOKEN');
+  console.warn('   PORT=3000');
 }
 
 // Debug: Show loaded environment variables
-console.log('\n🔑 Environment Variables Loaded:');
-console.log('   PORT:', process.env.PORT || '3100');
-console.log('   NODE_ENV:', process.env.NODE_ENV || 'development');
-console.log('   HUGGINGFACE_API_KEY:', process.env.HUGGINGFACE_API_KEY ? '✅ SET' : '❌ NOT SET');
-console.log('   MAX_FILE_SIZE:', process.env.MAX_FILE_SIZE || '10485760');
-console.log('');
+// console.log('\n🔑 Environment Variables Loaded:');
+// console.log('   PORT:', process.env.PORT || '3100');
+// console.log('   NODE_ENV:', process.env.NODE_ENV || 'development');
+// console.log('   GEMINI_API_KEY:', process.env.GEMINI_API_KEY ? '✅ SET' : '❌ NOT SET');
+// console.log('   MAX_FILE_SIZE:', process.env.MAX_FILE_SIZE || '10485760');
+// console.log('');
 
 const app: Express = express();
 const PORT = process.env.PORT || 3100;
 
 // Create uploads directory if it doesn't exist
 if (!fs.existsSync('uploads')) {
-    fs.mkdirSync('uploads', { recursive: true });
-    console.log('📂 Created uploads directory');
+  fs.mkdirSync('uploads', { recursive: true });
+  console.log('📂 Created uploads directory');
 }
 
 // Middleware
@@ -51,7 +51,7 @@ app.use('/api', uploadRoutes);
 
 // Home route with HTML form
 app.get('/', (req: Request, res: Response) => {
-    res.send(`
+  res.send(`
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -462,57 +462,49 @@ app.get('/', (req: Request, res: Response) => {
 
 // Error handling middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    console.error('Error:', err);
-    res.status(err.status || 500).json({
-        success: false,
-        message: err.message || 'Internal server error',
-    });
+  console.error('Error:', err);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'Internal server error',
+  });
 });
 
 // 404 handler
 app.use((req: Request, res: Response) => {
-    res.status(404).json({
-        success: false,
-        message: 'Route not found',
-    });
+  res.status(404).json({
+    success: false,
+    message: 'Route not found',
+  });
 });
 
 // Start server
 const server = app.listen(PORT, () => {
-    console.log(`
-╔════════════════════════════════════════════╗
-║   🚀 AI Portfolio Generator Server         ║
-║                                            ║
-║   Server running on:                       ║
-║   http://localhost:${PORT}                ║
-║                                            ║
-║   API Endpoints:                           ║
-║   POST   /api/upload      - Generate       ║
-║   GET    /api/download    - Download       ║
-║   GET    /api/health      - Health check   ║
-║                                            ║
-║   Environment:                             ║
-║   NODE_ENV: ${process.env.NODE_ENV || 'development'}           ║
-║                                            ║
-╚════════════════════════════════════════════╝
-  `);
+  console.log(`
+I Portfolio Generator Server                                       
+   Server running on: http://localhost:${PORT}                                                         
+   API Endpoints:                           
+   POST   /api/upload      - Generate       
+   GET    /api/download    - Download       
+   GET    /api/health      - Health check                                           
+   Environment:                             
+   NODE_ENV: ${process.env.NODE_ENV || 'development'}`);
 });
 
 // Handle graceful shutdown
 process.on('SIGTERM', () => {
-    console.log('SIGTERM signal received: closing HTTP server');
-    server.close(() => {
-        console.log('HTTP server closed');
-        process.exit(0);
-    });
+  console.log('SIGTERM signal received: closing HTTP server');
+  server.close(() => {
+    console.log('HTTP server closed');
+    process.exit(0);
+  });
 });
 
 process.on('SIGINT', () => {
-    console.log('SIGINT signal received: closing HTTP server');
-    server.close(() => {
-        console.log('HTTP server closed');
-        process.exit(0);
-    });
+  console.log('SIGINT signal received: closing HTTP server');
+  server.close(() => {
+    console.log('HTTP server closed');
+    process.exit(0);
+  });
 });
 
 export default app;
