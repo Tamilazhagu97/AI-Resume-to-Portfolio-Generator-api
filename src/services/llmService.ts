@@ -59,6 +59,7 @@ DATA EXTRACTION GUIDELINES:
 
 PERSONAL INFORMATION:
 - fullName: Extract complete name as written (proper capitalization)
+- subtitle: Extract the subtitle from the resume
 - email: Valid email format only
 - phone: Clean format (remove special chars, standardize to: +1 (123) 456-7890 or +1-123-456-7890)
 - location: City, State/Country format
@@ -126,6 +127,7 @@ DATA QUALITY STANDARDS:
 EXAMPLE OUTPUT STRUCTURE:
 {
   "fullName": "John David Smith",
+  "subtitle": "Software Engineer",
   "email": "john.smith@example.com",
   "phone": "+1 (555) 123-4567",
   "location": "San Francisco, CA",
@@ -299,6 +301,7 @@ Extract and return ONLY the JSON object, no additional text.`;
 
         const data: ResumeData = {
             fullName: 'Your Name',
+            subtitle: '',
             email: '',
             phone: '',
             location: '',
@@ -534,6 +537,7 @@ Extract and return ONLY the JSON object, no additional text.`;
     private static validateAndNormalizeData(data: any): ResumeData {
         return {
             fullName: data.fullName || 'Your Name',
+            subtitle: data.subtitle || '',
             email: data.email || 'email@example.com',
             phone: data.phone || '',
             location: data.location || '',
@@ -550,6 +554,7 @@ Extract and return ONLY the JSON object, no additional text.`;
     private static getDefaultResumeData(): ResumeData {
         return {
             fullName: 'Your Name',
+            subtitle: '',
             email: 'email@example.com',
             phone: '',
             location: '',

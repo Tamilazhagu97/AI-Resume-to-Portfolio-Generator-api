@@ -83,6 +83,7 @@ export class LLMService {
 
     const data: ResumeData = {
       fullName: 'Your Name',
+      subtitle: '',
       email: '',
       phone: '',
       location: '',
@@ -324,6 +325,7 @@ export class LLMService {
   private static validateAndNormalizeData(data: any): ResumeData {
     return {
       fullName: data.fullName || 'Your Name',
+      subtitle: data.data.subtitle || '',
       email: data.email || 'email@example.com',
       phone: data.phone || '',
       location: data.location || '',
@@ -340,6 +342,7 @@ export class LLMService {
   private static getDefaultResumeData(): ResumeData {
     return {
       fullName: 'Your Name',
+      subtitle: '',
       email: 'email@example.com',
       phone: '',
       location: '',
