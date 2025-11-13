@@ -5,8 +5,11 @@ import { ResumeExtractor } from '../services/resumeExtractor';
 import { LLMService } from '../services/llmService';
 import { PortfolioGenerator } from '../services/portfolioGenerator';
 import { PortfolioResponse } from '../types';
+import { bentoGrid, brutalistNeoBrutalism, defaultTheme, futuristic3D, glassmorphism, neonCyberpunk, newspaperVictorian, polaroidScrapbook, swissMinimal, terminalHacker } from '../templates';
 
 export class UploadController {
+    private static usedTemplates: Map<string, Set<number>> = new Map();
+
     static async generatePortfolio(req: Request, res: Response): Promise<void> {
         try {
             if (!req.file) {
@@ -38,8 +41,25 @@ export class UploadController {
 
                 // Step 3: Generate portfolio HTML
                 console.log('🎨 Generating portfolio HTML...');
-                const portfolioHtml = PortfolioGenerator.generate(resumeData);
-
+                // const portfolioHtml = PortfolioGenerator.generate(resumeData);
+                const userIP = (req.ip || req.socket?.remoteAddress || 'unknown') as string;
+                let used = UploadController.usedTemplates.get(userIP);
+                if (!used) {
+                    used = new Set<number>();
+                    UploadController.usedTemplates.set(userIP, used);
+                }
+                const templates = [defaultTheme, bentoGrid, brutalistNeoBrutalism, futuristic3D, glassmorphism, neonCyberpunk, newspaperVictorian, polaroidScrapbook, swissMinimal, terminalHacker];
+                const availableIndices = templates.map((_, i) => i).filter(i => !used.has(i));
+                let randomTemplate: number;
+                if (availableIndices.length > 0) {
+                    randomTemplate = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+                } else {
+                    // All templates used, reset and pick random
+                    used.clear();
+                    randomTemplate = Math.floor(Math.random() * templates.length);
+                }
+                used.add(randomTemplate);
+                const portfolioHtml = PortfolioGenerator.generate(resumeData, randomTemplate);
                 // Step 4: Save HTML file
                 const fileName = `${resumeData.fullName}_${Date.now()}.html`;
                 const outputPath = path.join('uploads', fileName);
@@ -190,5 +210,17 @@ export class UploadController {
             message: 'Server is running',
             timestamp: new Date().toISOString(),
         });
+    }
+
+    static templateCheck(req: Request, res: Response): void {
+        const resumeData = req.body;
+        const portfolioHtml = PortfolioGenerator.checkGenerate(resumeData);
+        // Step 4: Save HTML file
+        const fileName = `${resumeData.fullName}_${Date.now()}.html`;
+        const outputPath = path.join('uploads', fileName);
+        fs.writeFileSync(outputPath, portfolioHtml);
+
+        console.log(`✓ Portfolio saved to ${fileName}`);
+        res.send(portfolioHtml);
     }
 }

@@ -19,6 +19,7 @@ Transform your resume into a stunning, professional portfolio website with AI-po
 - 💰 **100% Free** - Uses Google's free tier API
 - 🔄 **Smart Fallback** - Switches to regex parser if API fails
 - 📥 **Easy Download** - Save portfolio as standalone HTML
+- 🎲 **Unique Templates** - Random template selection with no repeats per user
 
 ## 🎯 What It Does
 

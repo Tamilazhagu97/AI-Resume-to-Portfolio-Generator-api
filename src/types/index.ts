@@ -1,16 +1,28 @@
 export interface ResumeData {
-    fullName: string;
-    subtitle: string;
-    email: string;
-    phone: string;
-    location: string;
-    summary: string;
-    experience: Experience[];
+    fullName: string;                    // required
+    subtitle?: string;
+    headline?: string;
+    pronouns?: string;
+    profileImageUrl?: string;
+    email?: string;
+    phone?: string;
+    website?: string;
+    location?: string;
+    timezone?: string;
+    summary?: string;
+    objective?: string;
+    experience: Experience[];            // allow empty array
     education: Education[];
     skills: Skill[];
+    skillRatings?: Record<string, number>;
+    languages?: { name: string; level: string }[];
     projects: Project[];
     certifications: string[];
     social: SocialLink[];
+    availability?: string;
+    portfolioLinks?: { title: string; url: string }[];
+    themePreferences?: { prefersDark?: boolean; accentColor?: string };
+    meta?: { generatedAt?: string };
 }
 
 export interface Experience {

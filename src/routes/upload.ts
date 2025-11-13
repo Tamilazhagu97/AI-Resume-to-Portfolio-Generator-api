@@ -50,4 +50,5 @@ router.get('/download/:fileName', UploadController.downloadPortfolio);
 // GET /api/health - Health check
 router.get('/health', UploadController.getHealth);
 
+router.post('/check', UploadController.templateCheck)
 export default router;
